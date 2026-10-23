@@ -1,0 +1,8 @@
+{
+  "name": " Educate The World",
+  "description": "A mobile app providing parents with structured, 20-minute daily activities to enrich their child\u0027s home education journey.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
