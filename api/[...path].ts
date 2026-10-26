@@ -1,20 +1,19 @@
-export default async function handler(req, res) {
-  const out = { step: 'start', reqUrl: req.url, method: req.method };
+export default async function handler(req: any, res: any) {
   try {
-    const mod = await import('../server');
-    out.step = 'imported';
+    // @ts-ignore - generated at build time by esbuild from server.ts
+    const mod: any = await import('./_server.mjs');
     const app = await mod.etwReady;
-    out.step = 'ready';
+
     if (!app) {
-      res.status(500).json({ error: 'no app instance', out });
+      res.status(500).json({ error: 'Server failed to initialize' });
       return;
     }
+
     app(req, res);
-  } catch (e) {
+  } catch (e: any) {
     res.status(500).json({
       error: String((e && e.message) || e),
-      stack: String((e && e.stack) || '').slice(0, 3000),
-      out
+      stack: String((e && e.stack) || '').slice(0, 2000)
     });
   }
 }
