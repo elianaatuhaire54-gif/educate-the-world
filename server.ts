@@ -1252,5 +1252,19 @@ function getLanguageCoachFallback(question: string, language: string) {
   };
 }
 
-startServer();
+let etwCapturedApp: any = null;
+const etwExpressApplication: any = (express as any).application;
+if (etwExpressApplication) {
+  const etwOriginalListen = etwExpressApplication.listen;
+  etwExpressApplication.listen = function (...args: any[]) {
+    etwCapturedApp = this;
+    if (process.env.VERCEL) {
+      return { close() {}, on() {}, address() { return null; }, listening: false } as any;
+    }
+    return etwOriginalListen.apply(this, args);
+  };
+}
+
+export const etwReady: Promise<any> = startServer().then(() => etwCapturedApp);
+
 
